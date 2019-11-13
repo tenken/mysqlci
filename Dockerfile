@@ -19,6 +19,10 @@ VOLUME /var/lib/mysql
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
+# Try to remove skip-symbolic-links from startup configuration
+# https://serverfault.com/a/705609
+RUN echo "skip-symbolic-links" >> /etc/mysql/conf.d/docker.cnf
+
 # only expose port 3306, but not 33060,
 # as the upstream Dockerfile does
 # https://github.com/docker-library/mysql/blob/master/8.0/Dockerfile#L74
