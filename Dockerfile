@@ -1,12 +1,23 @@
 # DPG 09-20-2019
 # https://stackoverflow.com/a/54034654/1491507
 
-FROM mysql:8.0
+FROM mysql:8.0 as upstream
+
+FROM scratch
+COPY --from=upstream / /
+
+ENV GOSU_VERSION 1.7
+ENV MYSQL_MAJOR 8.0
+ENV MYSQL_VERSION 8.0.18-1debian9
 
 RUN echo '[mysqld]' >> /etc/mysql/conf.d/mysql.cnf
 RUN echo 'default-authentication-plugin = mysql_native_password' >> /etc/mysql/conf.d/mysql.cnf
 RUN echo 'collation-server = utf8mb4_general_ci' >> /etc/mysql/conf.d/mysql.cnf
 RUN echo 'character-set-server = utf8mb4' >> /etc/mysql/conf.d/mysql.cnf
+
+VOLUME /var/lib/mysql
+
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 # only expose port 3306, but not 33060,
 # as the upstream Dockerfile does
@@ -14,3 +25,5 @@ RUN echo 'character-set-server = utf8mb4' >> /etc/mysql/conf.d/mysql.cnf
 # this is to address the following gitlab-runner error
 # https://gitlab.com/gitlab-org/gitlab-runner/issues/4143
 EXPOSE 3306
+
+CMD ["mysqld"]
