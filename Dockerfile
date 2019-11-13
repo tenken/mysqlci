@@ -21,7 +21,7 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 # Try to remove skip-symbolic-links from startup configuration
 # https://serverfault.com/a/705609
-RUN echo "skip-symbolic-links" >> /etc/mysql/conf.d/docker.cnf
+RUN echo "symbolic-links=FALSE" >> /etc/mysql/conf.d/docker.cnf
 
 # only expose port 3306, but not 33060,
 # as the upstream Dockerfile does
