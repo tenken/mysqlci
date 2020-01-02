@@ -25,7 +25,7 @@ RUN echo "symbolic-links=FALSE" >> /etc/mysql/conf.d/docker.cnf
 
 # 01-02-2019 DPG slow updates in mysql8
 # https://dba.stackexchange.com/questions/232365/mysql-8-0-updates-are-sometimes-stalling
-RUN echo "range_optimizer_max_mem_size=0" >> /etc/mysql/conf.d/docker.cnf
+RUN echo "range-optimizer-max-mem-size=0" >> /etc/mysql/conf.d/docker.cnf
 
 
 # only expose port 3306, but not 33060,
