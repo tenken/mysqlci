@@ -23,6 +23,11 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 # https://serverfault.com/a/705609
 RUN echo "symbolic-links=FALSE" >> /etc/mysql/conf.d/docker.cnf
 
+# 01-02-2019 DPG slow updates in mysql8
+# https://dba.stackexchange.com/questions/232365/mysql-8-0-updates-are-sometimes-stalling
+RUN echo "range_optimizer_max_mem_size=0" >> /etc/mysql/conf.d/docker.cnf
+
+
 # only expose port 3306, but not 33060,
 # as the upstream Dockerfile does
 # https://github.com/docker-library/mysql/blob/master/8.0/Dockerfile#L74
